@@ -1,13 +1,10 @@
 var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
 var ipc = require('ipc');
-var fileStuff = require('./services/fileStuff');
+var fileStuff = require('./services/file-stuff');
 var exifWorker = require('./services/exifWorker');
 
-ipc.on('get-files', function(event, arg) {
-  var files = fileStuff.getFiles();
-  event.sender.send('on-files', files);
-});
+
 
 // Report crashes to our server.
 require('crash-reporter').start();

@@ -1,9 +1,11 @@
 var fs = require('fs');
 var path = require('path');
+var ipc = require('ipc');
 
 var user = process.env.HOME || process.env.USERPROFILE;
 var dropbox = path.join(user, 'pictures');
 var pictures = path.join(user, 'dropbox', 'Camera Uploads');
+var fstats = [];
 
 function getImages(folder){
 	
@@ -13,8 +15,8 @@ function getImages(folder){
 	for(var i = 0; i < images.length; i++){
 		fstats.push({
 			file: images[i],
-			path: dir+images[i],
-			fstat: fs.statSync(dir+images[i])
+			path: path.join(folder, images[i]),
+			fstat: fs.statSync(path.join(folder, images[i]))
 		});
 	}
 	
@@ -46,9 +48,9 @@ function filterImages(file){
 	return file.indexOf('.jpg') !== -1;
 }
 
-function saveStat(fstat){
-	fstats.push(fstat);
-}
+// function saveStat(fstat){
+// 	fstats.push(fstat);
+// }
 
 // function sort(a, b){
 // 	if(a.fstat.mtime.getTime() - b.fstat.mtime.getTime())
@@ -59,5 +61,10 @@ function saveStat(fstat){
 // 		
 // 	return 0;
 // }
+
+ipc.on('get-files', function(event, arg) {
+  var files = getFiles();
+  event.sender.send('on-files', files);
+});
 
 exports.getFiles = getFiles;
