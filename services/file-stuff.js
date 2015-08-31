@@ -7,6 +7,11 @@ var dropbox = path.join(user, 'pictures');
 var pictures = path.join(user, 'dropbox', 'Camera Uploads');
 var fstats = [];
 
+ipc.on('get-files', function(event, arg) {
+	var files = getFiles();
+	event.sender.send('on-files', files);
+});
+
 function getImages(folder){
 	
 	var allFiles = fs.readdirSync(folder);
@@ -47,24 +52,3 @@ function getSaved(){
 function filterImages(file){
 	return file.indexOf('.jpg') !== -1;
 }
-
-// function saveStat(fstat){
-// 	fstats.push(fstat);
-// }
-
-// function sort(a, b){
-// 	if(a.fstat.mtime.getTime() - b.fstat.mtime.getTime())
-// 		return 1;
-// 		
-// 	if(b.fstat.mtime.getTime() - a.fstat.mtime.getTime())
-// 		return -1;
-// 		
-// 	return 0;
-// }
-
-ipc.on('get-files', function(event, arg) {
-  var files = getFiles();
-  event.sender.send('on-files', files);
-});
-
-exports.getFiles = getFiles;

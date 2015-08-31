@@ -1,6 +1,7 @@
 var ipc = require('ipc');
 var configSettings = require('../configsettings/config.js'); 
-var exifData = require('../services/exifData');
+var fileStuff = require('../services/file-stuff');
+var exifData = require('../services/exif-data');
 var geolib = require('geolib');
 var Q = require('Q');
 var moment = require('moment');
@@ -104,9 +105,8 @@ function calculateImageWidth(){
     }
   }
   catch(err){
-    console.log(err);
+    console.error(err);
   }
-  console.log('-------------------------------');
 }
 
 function toTens(num){

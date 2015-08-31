@@ -1,12 +1,13 @@
 var ipc = require('ipc');
 var Q = require('Q');
-var exifData = require('./exifData');
+var exifData = require('./exif-data');
 var moment = require('moment');
 var _ = require('lodash');
 var geolib = require('geolib');
 var fs = require('fs');
 
 var pics = [];
+
 ipc.on('get-exif', function(event, arg){
 	console.log('get-exif', event, arg); 
 	processFiles(arg.slice(-50), event);

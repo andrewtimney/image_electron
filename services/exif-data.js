@@ -1,7 +1,7 @@
 var ExifImage = require('exif').ExifImage;
 var Q = require('Q');
 
-exports.getExif = function(imagePath){
+ function getExif(imagePath){
 	var deferred = Q.defer();
 	try {
 	    new ExifImage({ image : imagePath }, function (error, exifData) {
@@ -19,3 +19,5 @@ exports.getExif = function(imagePath){
 	}
 	return deferred.promise;
 };
+
+exports.getExif = getExif;
