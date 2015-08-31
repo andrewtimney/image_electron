@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Electron</title>
+    <link href="../external/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="home.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div>
+      <div class="main" data-bind="visible: files().length>0" >
+          <div data-bind="foreach: files" class="flex-container">
+            <span class="image flex-item" 
+              data-bind="style: { 'background-image': stylePath }, css: { 'landscape': orientation===1, 'portrait': orientation===0 }">
+            </span>
+          </div>
+      </div>
+      
+      <img src="../external/img/ajax-loader.gif" alt=""  data-bind="visible: files().length===0">
+    
+      <footer>
+      </footer>
+    </div>
+  </body>
+  <scrip src="../external/js/bootstrap.min.js"></scrip>
+  <script src="../external/js/knockout-3.3.0.js"></script> 
+  
+  <script src="../bower_components/react/react.js"></script>
+  <script src="../bower_components/react/JSXTransformer.js"></script>
+  <script src="./index.js"></script>
+</html>

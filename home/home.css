@@ -1,0 +1,29 @@
+body, html{
+	margin:0;
+}
+
+.main{
+	margin:0;
+	margin-top:10px;
+}
+
+.image{
+	background-size: cover;
+	margin-right:1px;
+	margin-bottom:1px;
+}
+.portrait{
+	width:250px;
+	height: 150px;
+}
+.landscape{
+	width: 250px;
+	height:150px;
+}
+
+.flex-container{
+	display: flex;
+	flex-wrap: wrap;
+}
+.flex-item{
+}
