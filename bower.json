@@ -1,6 +1,6 @@
 {
-  "name": "ImageBackup.Electron",
-  "version": "0.0.0",
+  "name": "Image_Electron",
+  "version": "0.0.1",
   "homepage": "https://github.com/andrewtimney/imagebackup",
   "authors": [
     "Andrew Timney <andrew.timney@gmail.com>"
