@@ -9,7 +9,6 @@ var fs = require('fs');
 var pics = [];
 
 ipc.on('get-exif', function(event, arg){
-	console.log('get-exif', event, arg); 
 	processFiles(arg.slice(-50), event);
 });
 
@@ -23,7 +22,6 @@ function processFiles(files, event){
 	var current = [];
   var topFiles = files.slice(-50);
   var sliced = files.slice(0, -50);
-  console.log('Files: ', topFiles.length, sliced.length);
 	
 	topFiles.forEach(function(file){
     var result = getExifData(file);
@@ -42,7 +40,6 @@ function processFiles(files, event){
 
 function complete(event){
 	try{
-    console.log('complete...', event, pics.length);
     var sorted = _.sortBy(pics, function(pic){
      return pic.DateTimeOriginal ? pic.DateTimeOriginal.valueOf() : 0;
     });

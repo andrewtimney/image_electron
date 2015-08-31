@@ -3,9 +3,9 @@ var path = require('path');
 var ipc = require('ipc');
 
 var user = process.env.HOME || process.env.USERPROFILE;
-var dropbox = path.join(user, 'pictures');
+var dropbox = path.join(user, 'Pictures');
 var pictures = path.join(user, 'dropbox', 'Camera Uploads');
-var fstats = [];
+var pictureFolders = [dropbox, pictures];
 
 ipc.on('get-files', function(event, arg) {
 	var files = getFiles();
@@ -14,6 +14,7 @@ ipc.on('get-files', function(event, arg) {
 
 function getImages(folder){
 	
+	var fstats = [];
 	var allFiles = fs.readdirSync(folder);
 	var images = allFiles.filter(filterImages);
 	
@@ -24,17 +25,22 @@ function getImages(folder){
 			fstat: fs.statSync(path.join(folder, images[i]))
 		});
 	}
-	
+	console.log('getImages', fstats.length);
 	return fstats;
 }
 
 function getFiles(){
 	
-	var saved = getSaved();
-	if(saved)
-		return saved;
-		
-	return getImages(pictures);
+	// var saved = getSaved();
+	// if(saved)
+	// 	return saved; 
+	var files = [];
+	
+	for(var i = 0; i < pictureFolders.length; i++){
+		files = files.concat(getImages(pictureFolders[i]));
+	}
+	console.log('WAW', files.length);
+	return files;
 }
 
 function getSaved(){

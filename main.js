@@ -2,11 +2,12 @@ var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
 var ipc = require('ipc');
 var fileStuff = require('./services/file-stuff');
+var exifWorker = require('./services/exif-worker');
 // Report crashes to our server.
 require('crash-reporter').start();
 
 // Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the javascript object is GCed.
+// be closed au tomatically when the javascript object is GCed.
 var mainWindow = null;
 
 // Quit when all windows are closed.

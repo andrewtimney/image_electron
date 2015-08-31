@@ -17,8 +17,6 @@ var viewModel = {
 };
 ko.applyBindings(viewModel);
 
-//window.onresize = calculateImageWidth;
-
 ipc.on('exif-complete', function(arg) {
   calculateImageWidth();
   complete(arg);
@@ -35,10 +33,8 @@ ipc.on('on-files', function(arg) {
 ipc.send('get-files');
 
 function complete(pics){
-   viewModel.files(pics.slice(-10));
+   viewModel.files(pics.slice(-100));
 }
-
-
 
 // function getLocation(path){ // Degree unicode = \u00B0
 //   exifData.getExif(path)
