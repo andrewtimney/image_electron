@@ -20,7 +20,7 @@ function getImages(folder){
 		});
 	}
 	
-	return fstats;//.sort(sort);
+	return fstats;
 }
 
 function getFiles(){
