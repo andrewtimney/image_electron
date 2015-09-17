@@ -22,7 +22,7 @@ function processFiles(files, event){
 	var current = [];
   var topFiles = files.slice(-50);
   var sliced = files.slice(0, -50);
-	
+	 
 	topFiles.forEach(function(file){
     var result = getExifData(file);
     current.push(result);
@@ -53,7 +53,7 @@ function complete(event){
 
 function savePics(pics){
   var stringed = JSON.stringify(pics);
-    fs.writeFile("../indexedPics.json", stringed, function(err){
+    fs.writeFile("../indexed-pics.json", stringed, function(err){
       console.error(err);
     });
 }
@@ -70,7 +70,7 @@ function getExifData(file){
     .then(function(exif){
      
       if(exif.exif.DateTimeOriginal || exif.exif.CreatedDate){
-        console.log(exif.exif);
+        //console.log(exif.exif);
         file.DateTimeOriginal = moment(exif.exif.DateTimeOriginal || exif.exif.CreatedDate, "YYYY:MM:DD HH:mm:SS");
         file.date = file.DateTimeOriginal.format('DD/MM/YYYY');
       }

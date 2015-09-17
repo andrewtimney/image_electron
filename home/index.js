@@ -18,7 +18,7 @@ var viewModel = {
 ko.applyBindings(viewModel);
 
 ipc.on('exif-complete', function(arg) {
-  calculateImageWidth();
+  //calculateImageWidth();
   complete(arg);
 });
 

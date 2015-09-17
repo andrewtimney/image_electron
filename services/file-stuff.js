@@ -17,7 +17,7 @@ function getImages(folder){
 	var fstats = [];
 	var allFiles = fs.readdirSync(folder);
 	var images = allFiles.filter(filterImages);
-	
+
 	for(var i = 0; i < images.length; i++){
 		fstats.push({
 			file: images[i],
@@ -25,7 +25,6 @@ function getImages(folder){
 			fstat: fs.statSync(path.join(folder, images[i]))
 		});
 	}
-	console.log('getImages', fstats.length);
 	return fstats;
 }
 
@@ -37,16 +36,15 @@ function getFiles(){
 	var files = [];
 	
 	for(var i = 0; i < pictureFolders.length; i++){
-		files = files.concat(getImages(pictureFolders[i]));
-	}
-	console.log('WAW', files.length);
+		var found = getImages(pictureFolders[i]);
+		files = files.concat(found);
+	} 
 	return files;
 }
 
 function getSaved(){
 	try{
-		var pics = require('../indexedPics.json');
-		console.log('READ PICS FILE: '+pics.length);
+		var pics = require('../indexed-pics.json');
 		return pics;
 	}
 	catch(err){
