@@ -11,6 +11,7 @@ var http = require('http');
 var viewModel = {
   count: ko.observable(0),
   files: ko.observableArray(),
+  newly: ko.observableArray(),
   config: ko.observable(),
   cities: ko.observableArray(),
   imageSize: ko.observable('100px')
@@ -18,8 +19,7 @@ var viewModel = {
 ko.applyBindings(viewModel);
 
 ipc.on('exif-complete', function(arg) {
-  //calculateImageWidth();
-  complete(arg);
+   complete(arg);
 });
 
 ipc.on('exif-update', function(arg){
@@ -33,7 +33,8 @@ ipc.on('on-files', function(arg) {
 ipc.send('get-files');
 
 function complete(pics){
-   viewModel.files(pics.slice(-100));
+   viewModel.files(pics.old.slice(-100));
+   viewModel.newly(pics.newly);
 }
 
 // function getLocation(path){ // Degree unicode = \u00B0

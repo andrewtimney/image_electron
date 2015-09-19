@@ -7,20 +7,22 @@ var geolib = require('geolib');
 var fs = require('fs');
 
 var pics = [];
+var fileArg;
 
 ipc.on('get-exif', function(event, arg){
-	processFiles(arg.slice(-50), event);
+  fileArg = arg;
+	processFiles(arg.newly, event);
 });
-
+ 
 function processFiles(files, event){
 	
 	if(files.length === 0){
-		complete(event);
+		complete(event, files);
 		return;
 	}
 	
 	var current = [];
-  var topFiles = files.slice(-50);
+  var topFiles = files.slice(-50); 
   var sliced = files.slice(0, -50);
 	 
 	topFiles.forEach(function(file){
@@ -29,22 +31,23 @@ function processFiles(files, event){
   });
 	
 	 Q.all(current)
-        .then(function(res){
-          res.forEach(function(file){
-            pics.push(file);
-          }); 
-          event.sender.send('exif-update', pics.length);
-          processFiles(sliced, event);
-        });
+      .then(function(res){
+        res.forEach(function(file){
+          pics.push(file);
+        }); 
+        event.sender.send('exif-update', pics.length);
+        processFiles(sliced, event);
+      });
 };
 
-function complete(event){
+function complete(event, files){
 	try{
     var sorted = _.sortBy(pics, function(pic){
      return pic.DateTimeOriginal ? pic.DateTimeOriginal.valueOf() : 0;
     });
-	  savePics(pics);
-    event.sender.send('exif-complete', sorted);
+    fileArg.newly = sorted;
+	  savePics(fileArg.old.concat(sorted));
+    event.sender.send('exif-complete', fileArg);
   }
   catch(ex){
     console.log(ex);
@@ -52,10 +55,10 @@ function complete(event){
 }
 
 function savePics(pics){
-  var stringed = JSON.stringify(pics);
-    fs.writeFile("../indexed-pics.json", stringed, function(err){
-      console.error(err);
-    });
+    var stringed = JSON.stringify(pics);
+    fs.writeFile("/indexed-pics.json", stringed, 'utf8', function(err){
+      console.error('Could not save indexed pics json', err);
+    }); 
 }
 
 function getExifData(file){

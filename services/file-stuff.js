@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var ipc = require('ipc');
+var _ = require('lodash');
 
 var user = process.env.HOME || process.env.USERPROFILE;
 var dropbox = path.join(user, 'Pictures');
@@ -30,8 +31,8 @@ function getImages(folder){
 
 function getFiles(){
 	
-	// var saved = getSaved();
-	// if(saved)
+	var saved = getSavedFiles();
+	 // if(saved)
 	// 	return saved; 
 	var files = [];
 	
@@ -39,10 +40,25 @@ function getFiles(){
 		var found = getImages(pictureFolders[i]);
 		files = files.concat(found);
 	} 
-	return files;
+	
+	var newFiles = getNewFiles(saved, files);
+	console.log(newFiles.length);
+	
+	return {
+		old: saved,
+		newly: newFiles
+	};
 }
 
-function getSaved(){
+function getNewFiles(saved, allFiles){
+	 return _.filter(allFiles, function(file){
+		 return !_.find(saved, function(savedFile){
+			 return savedFile.path === file.path;
+		 }); 
+	 });
+}
+
+function getSavedFiles(){
 	try{
 		var pics = require('../indexed-pics.json');
 		return pics;
