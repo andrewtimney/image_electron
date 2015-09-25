@@ -32,8 +32,6 @@ function getImages(folder){
 function getFiles(){
 	
 	var saved = getSavedFiles();
-	 // if(saved)
-	// 	return saved; 
 	var files = [];
 	
 	for(var i = 0; i < pictureFolders.length; i++){
@@ -42,13 +40,14 @@ function getFiles(){
 	} 
 	
 	var newFiles = getNewFiles(saved, files);
-	console.log(newFiles.length);
+	console.log('saved', saved.length);
+	console.log('new', newFiles.length);
 	
 	return {
 		old: saved,
 		newly: newFiles
 	};
-}
+} 
 
 function getNewFiles(saved, allFiles){
 	 return _.filter(allFiles, function(file){
@@ -66,7 +65,7 @@ function getSavedFiles(){
 	catch(err){
 		console.log('Error reading pics file:'+err);
 	}
-	return;
+	return [];
 }
 
 function filterImages(file){

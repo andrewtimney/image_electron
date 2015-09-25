@@ -23,7 +23,10 @@ ipc.on('exif-complete', function(arg) {
 });
 
 ipc.on('exif-update', function(arg){
-  viewModel.count(arg);
+  //viewModel.count(arg);
+  if(viewModel.files.length===0){
+    viewModel.files(arg);
+  }
 });
 
 ipc.on('on-files', function(arg) {
