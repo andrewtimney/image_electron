@@ -33,7 +33,7 @@ function getFiles(){
 	
 	var saved = getSavedFiles();
 	var files = [];
-	
+	 
 	for(var i = 0; i < pictureFolders.length; i++){
 		var found = getImages(pictureFolders[i]);
 		files = files.concat(found);
@@ -63,7 +63,7 @@ function getSavedFiles(){
 		return pics;
 	}
 	catch(err){
-		console.log('Error reading pics file:'+err);
+		 console.log('Error reading pics file:'+err);
 	}
 	return [];
 }

@@ -9,9 +9,10 @@
   "author": "Andy Timney",
   "license": "ISC",
   "dependencies": {
+    "easyimage": "^2.1.0",
     "exif": "^0.4.0",
     "geolib": "^2.0.17",
-    "jimp": "^0.2.5",
+    "jimp": "^0.2.7",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "promise": "^7.0.1",

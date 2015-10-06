@@ -7,6 +7,7 @@ var geolib = require('geolib');
 var fs = require('fs');
 var Jimp = require('jimp');
 var path = require('path');
+var easyimg = require('easyimage');
 
 var pics = [];
 var fileArg;
@@ -17,7 +18,7 @@ ipc.on('get-exif', function (event, arg) {
 });
 
 function processFiles(files, event) {
-
+  console.log('processFiles', files.length, event);
   if (files.length === 0) {
     complete(event, files);
     return;
@@ -37,20 +38,37 @@ function processFiles(files, event) {
       res.forEach(function (file) {
         pics.push(file);
       });
-      //event.sender.send('exif-update', pics.length);
+      event.sender.send('exif-update', pics);
       processFiles(sliced, event);
     });
 };
 
 function complete(event, files) {
-  try {
+  try { 
     var sorted = _.sortBy(pics, function (pic) {
       return pic.DateTimeOriginal ? pic.DateTimeOriginal.valueOf() : 0;
     });
     fileArg.newly = sorted;
-    savePics(fileArg.old.concat(sorted));
-    createThumbnails(fileArg.old, event);
-    //event.sender.send('exif-complete', fileArg);
+    var all = fileArg.old.concat(sorted);
+    //createThumbnails(all, event);
+    console.log('complete', all.length);
+    savePics(all);
+    
+    var pro = require('child_process');
+    var crt = pro.spawn('node', ['services/create-thumbnails.js'], { stdio: ['pipe'] });
+     crt.stdout.on('data', function(buffer){
+    //   try{
+    //     var st = buffer.toString();
+    //     console.log('update', buffer.toJSON());
+    //   }
+    //   catch(err){
+         console.log('update', buffer.toString());
+    //   }
+     });
+    crt.stdout.on('end', function(){
+      console.log('END');
+    });
+    
   }
   catch (ex) {
     console.log(ex);
@@ -64,8 +82,8 @@ function createThumbnails(images, event){
   }
   
   var imgs = [];
-  var topImages = images.slice(-10);
-  var sliced = images.slice(0, -10);
+  var topImages = images.slice(-100);
+  var sliced = images.slice(0, -100);
   
   topImages.forEach(function(image){
     imgs.push(resize(image));
@@ -73,25 +91,41 @@ function createThumbnails(images, event){
   
   Q.all(imgs)
     .then(function(res){
-      event.sender.send('exif-update', topImages);
-      createThumbnails(sliced);
+      //event.sender.send('exif-update', res[0]);
+      createThumbnails(sliced, event);
     });
     
-    return;
+  return;
+}
+
+function nResize(image){
+   var thumbnailPath = path.join(__dirname, '../thumbnails', path.basename(image.path));
+    
+  return easyimg.rescrop({
+     src:image.path, dst:thumbnailPath,
+     width:250, height:250,
+     cropwidth:128, cropheight:128,
+     x:0, y:0
+  });
 }
 
 function resize(image){
+
   var deferred = Q.defer();
   
-  var img = new Jimp(image.path, function(err, jimage){
+  var thumbnailPath = path.join(__dirname, '../thumbnails', path.basename(image.path));
+    
+  if(image.thumbnailPath){
+    deferred.resolve(image);
+    return deferred.promise;
+  }
+ 
+  new Jimp(image.path, function(err, jimage){
     
     if(err){
       console.log(err);
       deferred.reject(err);
     }
-    
-    var thumbnailPath = path.join(__dirname, '../thumbnails', path.basename(image.path));
-    console.log(thumbnailPath);
     
     var options = { width: 250, height: 150 };
     
@@ -107,12 +141,13 @@ function resize(image){
       jimage.bitmap.height - (offsetY * 2)
     );
     
-    jimage.resize(options.width, options.height)
+    jimage.resize(options.width, options.height) 
       .write(thumbnailPath);
       
     image.thumbnailPath = thumbnailPath;
+    image.stylePath = 'url("' + encodeURI(thumbnailPath) + '")';
       
-    deferred.resolve();
+    deferred.resolve(image);
   });
   
   return deferred.promise;
