@@ -21,6 +21,11 @@ body, html{
 	height:150px;
 }
 
+.square{
+	width:200px;
+	height:200px;
+}
+
 .flex-container{
 	display: flex;
 	flex-wrap: wrap;

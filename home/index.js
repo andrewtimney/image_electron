@@ -22,23 +22,25 @@ ipc.on('exif-complete', function(arg) {
    complete(arg);
 });
 
-ipc.on('exif-update', function(arg){
-  //viewModel.count(arg);
-  //if(viewModel.files.length===0){
-    console.log('exif-update', arg);
-    viewModel.files.push(arg);
-  //}
-});
+// ipc.on('exif-update', function(arg){
+//   //viewModel.count(arg);
+//   //if(viewModel.files.length===0){
+//    // console.log('exif-update', arg);
+//     //viewModel.files.push(arg);
+//   //}
+// });
 
 ipc.on('on-files', function(arg) {
-  viewModel.files(arg.old.slice(-50));
+  if(arg.old.length){
+    viewModel.files(arg.old.slice(-50));
+    console.log(arg.old);
+  }
   ipc.send('get-exif', arg);
 });
 
 ipc.send('get-files');
 
 function complete(pics){
-   viewModel.files(pics.old.slice(-100));
    viewModel.newly(pics.newly);
 }
 
@@ -92,26 +94,26 @@ function getLocationAPI(file){
   });
 }
 
-var mainElement = document.querySelector('.main');
-function calculateImageWidth(){
-  try{
-    var current = 200;
-    var width = mainElement.clientWidth;;
-    width = toTens(width);
-    while(current > 100){
-      if((width/current) % 1 === 0){
-        //viewModel.imageSize((current-2)+'px');
-        break;
-      }
-      current--;
-    }
-  }
-  catch(err){
-    console.error(err);
-  }
-}
-
-function toTens(num){
-  var tens = num/10;
-  return Math.floor(tens)*10;
-}
+// var mainElement = document.querySelector('.main');
+// function calculateImageWidth(){
+//   try{
+//     var current = 200;
+//     var width = mainElement.clientWidth;;
+//     width = toTens(width);
+//     while(current > 100){
+//       if((width/current) % 1 === 0){
+//         //viewModel.imageSize((current-2)+'px');
+//         break;
+//       }
+//       current--;
+//     }
+//   }
+//   catch(err){
+//     console.error(err);
+//   }
+// }
+// 
+// function toTens(num){
+//   var tens = num/10;
+//   return Math.floor(tens)*10;
+// }

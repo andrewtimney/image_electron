@@ -40,9 +40,6 @@ function getFiles(){
 	} 
 	
 	var newFiles = getNewFiles(saved, files);
-	console.log('saved', saved.length);
-	console.log('new', newFiles.length);
-	
 	return {
 		old: saved,
 		newly: newFiles
