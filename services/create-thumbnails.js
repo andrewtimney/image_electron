@@ -62,12 +62,10 @@ function nResize(image){
 function savePics(pics) {
   
   var sorted = _.sortBy(pics, function (pic) {
-    console.log("DateTimeOriginal", pic.DateTimeOriginal);    
     return pic.DateTimeOriginal ? pic.DateTimeOriginal.valueOf() : 0;
   });
   
   var stringed = JSON.stringify(sorted);
-  console.log('savePic', sorted.length, sorted[0]);
   fs.writeFile("indexed-pics.json", stringed, 'utf8', function (err) {
     if (err) {
       console.error('Could not save indexed pics json', err);
