@@ -22,14 +22,6 @@ ipc.on('exif-complete', function(arg) {
    complete(arg);
 });
 
-// ipc.on('exif-update', function(arg){
-//   //viewModel.count(arg);
-//   //if(viewModel.files.length===0){
-//    // console.log('exif-update', arg);
-//     //viewModel.files.push(arg);
-//   //}
-// });
-
 ipc.on('on-files', function(arg) {
   if(arg.old.length){
     viewModel.files(arg.old.slice(-50));

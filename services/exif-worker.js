@@ -111,8 +111,6 @@ function getExifData(file) {
         }
       }
 
-      //file.stylePath = 'url("' + encodeURI(file.path) + '")';
-
       return file;
     });
 }
