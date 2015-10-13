@@ -6,7 +6,6 @@ var _ = require('lodash');
 
 var p = path.join(__dirname, '../indexed-pics');
 var imags = require(p);
-//imags = imags.slice(-50);
 
 function resize(imgs){
   

@@ -50,22 +50,24 @@ function complete(event, files) {
     fileArg.newly = sorted;
     var all = fileArg.old.concat(sorted);
     
-    console.log('complete', all.length);
     savePics(all);
-    
-    var pro = require('child_process');
-    var crt = pro.spawn('node', ['services/create-thumbnails.js'], { stdio: ['pipe'] });
-    crt.stdout.on('data', function(buffer){
-        console.log('update', buffer.toString());
-    });
-    crt.stdout.on('end', function(){
-      console.log('END');
-      event.sender.send('exif-complete', sorted);
-    });
+    createThumbnailsProcess();
   }
   catch (ex) {
     console.error(ex);
   }
+}
+
+function createThumbnailsProcess(){
+  var pro = require('child_process');
+  var crt = pro.spawn('node', ['services/create-thumbnails.js'], { stdio: ['pipe'] });
+  crt.stdout.on('data', function(buffer){
+      console.log('update', buffer.toString());
+  });
+  crt.stdout.on('end', function(){
+    console.log('END');
+    event.sender.send('exif-complete', sorted);
+  });
 }
 
 function savePics(pics) {
