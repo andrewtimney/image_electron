@@ -21,11 +21,11 @@ ko.applyBindings(viewModel);
 ipc.on('exif-complete', function(arg) {
    complete(arg);
 });
-
+ 
 ipc.on('on-files', function(arg) {
   if(arg.old.length){
-    viewModel.files(arg.old.slice(-50));
-    console.log(arg.old);
+    viewModel.files(arg.old);
+    console.log(arg.old.slice(-1), arg.old.slice(0, 1));
   }
   ipc.send('get-exif', arg);
 });
