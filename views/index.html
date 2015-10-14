@@ -7,30 +7,31 @@
   </head>
   <body>
     <div>
-      <div class="main" data-bind="visible: files().length>0" >
+      <div class="main">
         
-          <div data-bind="foreach: newly">
+          <!--<div data-bind="foreach: newly">
             <div data-bind="text: path">
               
             </div>
-          </div>
+          </div>-->
         
-          <div data-bind="foreach: files" class="flex-container">
+          <!--<div data-bind="foreach: files" class="flex-container">
             <span class="image flex-item square" 
               data-bind="style: { 'background-image': stylePath }">
             </span>
-          </div>
+          </div>-->
+          
+          <div id="images"></div>
+          
       </div>
-      
+<!--      
       <img src="../external/img/ajax-loader.gif" alt=""  data-bind="visible: files().length===0">
-    
+    -->
       <footer>
       </footer>
     </div>
   </body>
   <scrip src="../external/js/bootstrap.min.js"></scrip>
-  <script src="../external/js/knockout-3.3.0.js"></script> 
-  
   <script src="../bower_components/react/react.js"></script>
   <script src="./build/index.js"></script>
 </html>
