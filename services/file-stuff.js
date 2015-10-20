@@ -9,7 +9,9 @@ var pictures = path.join(user, 'dropbox', 'Camera Uploads');
 var pictureFolders = [dropbox, pictures];
 
 ipc.on('get-files', function(event, arg) {
+	console.log('get-files started', new Date());
 	var files = getFiles();
+	console.log('get-files ended', new Date());
 	event.sender.send('on-files', files);
 });
 
@@ -40,6 +42,7 @@ function getFiles(){
 	} 
 	
 	var newFiles = getNewFiles(saved, files);
+
 	return {
 		old: saved,
 		newly: newFiles

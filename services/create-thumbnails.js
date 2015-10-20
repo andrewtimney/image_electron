@@ -25,7 +25,7 @@ function resize(imgs){
   
   Q.all(current)
     .then(function(){
-      process.stdout.write('length: '+sliced.length);
+      //process.stdout.write('length: '+sliced.length);
       resize(sliced);
     });
 }

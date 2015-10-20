@@ -61,9 +61,9 @@ function complete(event, files) {
 function createThumbnailsProcess(sorted, event){
   var pro = require('child_process');
   var crt = pro.spawn('node', ['services/create-thumbnails.js'], { stdio: ['pipe'] });
-  crt.stdout.on('data', function(buffer){
-      console.log('update', buffer.toString());
-  });
+  // crt.stdout.on('data', function(buffer){
+  //     console.log('update', buffer.toString());
+  // });
   crt.stdout.on('end', function(){
     console.log('END');
     event.sender.send('exif-complete', sorted);
@@ -103,7 +103,6 @@ function getExifData(file) {
 
       if (exif.gps && exif.gps.GPSLatitude && exif.gps.GPSLongitude) {
         try {
-          console.log('GPS');
           var lat = geolib.sexagesimal2decimal(GPSCoordToString(exif.gps.GPSLatitude, exif.gps.GPSLatitudeRef));
           var lon = geolib.sexagesimal2decimal(GPSCoordToString(exif.gps.GPSLongitude, exif.gps.GPSLongitudeRef));
           var point = { latitude: lat, longitude: lon };

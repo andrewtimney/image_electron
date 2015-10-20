@@ -1,8 +1,4 @@
 var ipc = require('ipc');
-var fileStuff = require('../services/file-stuff');
-var exifData = require('../services/exif-data');
-var moment = require('moment');
-var _ = require('lodash');
 var React = require('react');
 
 var Images = React.createClass({
@@ -20,7 +16,10 @@ var Images = React.createClass({
     this.setState({ files: files.old });
     ipc.send('get-exif', files);
   },
+  sortByDate(){
+  },
   render(){
+    console.log('rendering', new Date());
     var files = [];
     
     this.state.files.forEach((file) => {
@@ -29,28 +28,10 @@ var Images = React.createClass({
     });
   
     return <div className="flex-container">
-            {files}
+            {files.reverse()}
            </div>;
   }
 });
-
-//ipc.on('exif-complete', function(arg) {
-  // complete(arg);
-//});
- 
-//ipc.on('on-files', function(arg) {
-//  if(arg.old.length){
-//    viewModel.files(arg.old);
-//    console.log(arg.old.slice(-1), arg.old.slice(0, 1));
-//  }
-//  ipc.send('get-exif', arg);
-//});
-
-//ipc.send('get-files');
-
-//function complete(pics){
-//   viewModel.newly(pics.newly);
-//}
 
 React.render(
 	<Images />,
