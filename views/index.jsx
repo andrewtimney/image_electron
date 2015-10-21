@@ -24,13 +24,19 @@ var Images = React.createClass({
     var files = []; 
     this.state.files.forEach((file) => {
       var divStyle = { backgroundImage: file.stylePath };
-      files.push(<span className="image flex-item square" style={divStyle} data-date={file.date}></span>);
+      files.push(<span 
+        className="image flex-item square" 
+        style={divStyle} 
+        key={file.path}></span>);
     });
     
     var newly = [];
     this.state.newly.forEach((file) => {
       var divStyle = { backgroundImage: file.stylePath };
-      newly.push(<span className="image flex-item square" style={divStyle}></span>);
+      newly.push(<span 
+        className="image flex-item square" 
+        style={divStyle}
+        key={file.path}></span>);
     });
     
     return <div className="">
