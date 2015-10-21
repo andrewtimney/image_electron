@@ -3,23 +3,28 @@
   <head>
     <title>Electron</title>
     <link href="home.css" rel="stylesheet" />
-    <link href="../external/photon/css/photon.min.css" rel="stylesheet" />
+    <link href="../external/css/bootstrap.css" rel="stylesheet" />
   </head>
   <body>
     <div class="window">
-      <!--<header class="toolbar toolbar-header">
-        <h1 class="title">Header</h1>
-      </header> -->
+      
+     <nav class="navbar navbar-default">
+       <div class="container-fluid">
+         <div class="navbar-header">
+           <a href="#" class="navbar-brand">
+             Wooo!
+           </a>
+         </div>
+         <div class="collapse navbar-collapse pull-right">
+          <button type="button" class="btn btn-default navbar-btn">Refresh</button>
+         </div>
+       </div>
+     </nav>
+      
       <div class="window-content main">
-          
           <div id="images"></div>
-          
       </div>
-<!--      
-      <img src="../external/img/ajax-loader.gif" alt=""  data-bind="visible: files().length===0">
-    -->
-      <footer>
-      </footer>
+
     </div>
   </body>
   <script src="../bower_components/react/react.js"></script>
