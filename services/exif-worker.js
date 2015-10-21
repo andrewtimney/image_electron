@@ -64,7 +64,7 @@ function createThumbnailsProcess(sorted, event){
   var crt = pro.spawn('node', ['services/create-thumbnails.js'], { stdio: ['pipe'] });
   crt.stdout.on('data', function(buffer){
     var newImage = buffer.toString();
-    if(!newImage.length){
+    if(newImage.length){
       event.sender.send('exif-complete', JSON.parse(newImage));
     }
   });

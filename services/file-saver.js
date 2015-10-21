@@ -8,7 +8,7 @@ function savePics(pics) {
       return moment(pic.DateTimeOriginal).valueOf();
     }
     return 0;
-  });
+  }).reverse();
   
   var stringed = JSON.stringify(sorted);
   fs.writeFile("indexed-pics.json", stringed, 'utf8', function (err) {

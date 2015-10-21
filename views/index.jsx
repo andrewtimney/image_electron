@@ -20,13 +20,6 @@ var Images = React.createClass({
     this.setState({ files: files.old });
     ipc.send('get-exif', files);
   },
-  sortByDate(files){
-   return _.sortBy(files.slice(10), function (pic) {
-      var val = pic.DateTimeOriginal ? pic.DateTimeOriginal.valueOf() : 0;
-      console.log(val, typeof pic.DateTimeOriginal);
-      return val;
-    });
-  },
   render(){
     var files = []; 
     this.state.files.forEach((file) => {
