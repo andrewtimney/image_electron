@@ -1,5 +1,7 @@
 var ipc = require('ipc');
 var React = require('react');
+var _ = require('lodash');
+var moment = require("moment");
 
 var Images = React.createClass({
   getInitialState(){
@@ -18,13 +20,18 @@ var Images = React.createClass({
     this.setState({ files: files.old });
     ipc.send('get-exif', files);
   },
-  sortByDate(){
+  sortByDate(files){
+   return _.sortBy(files.slice(10), function (pic) {
+      var val = pic.DateTimeOriginal ? pic.DateTimeOriginal.valueOf() : 0;
+      console.log(val, typeof pic.DateTimeOriginal);
+      return val;
+    });
   },
   render(){
-    var files = [];
+    var files = []; 
     this.state.files.forEach((file) => {
       var divStyle = { backgroundImage: file.stylePath };
-      files.push(<span className="image flex-item square" style={divStyle}></span>);
+      files.push(<span className="image flex-item square" style={divStyle} data-date={file.date}></span>);
     });
     
     var newly = [];
@@ -37,8 +44,9 @@ var Images = React.createClass({
             <div className="flex-container new">
               {newly}
             </div>
+            <div>{newly.length ? 'NEW':''}</div>
             <div className="flex-container old">
-              {files.reverse()}
+              {files}
             </div>
            </div>;
   }

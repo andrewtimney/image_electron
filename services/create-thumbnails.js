@@ -3,14 +3,18 @@ var path = require('path');
 var fs = require('fs');
 var Q = require('Q');
 var _ = require('lodash');
+var moment = require('moment');
+var savePics = require('./file-saver');
 
 var p = path.join(__dirname, '../indexed-pics');
 var imags = require(p);
+var newImages = [];
 
 function resize(imgs){
   
   if(imgs.length === 0){
     savePics(imags);
+    process.stdout.write(JSON.stringify(newImages));
     return;
   }
   
@@ -19,8 +23,10 @@ function resize(imgs){
   var sliced = imgs.slice(0, -50);
   
   topImages.forEach(function(file){
-    if(!file.thumbnailPath)
-      current.push(nResize(file));
+    if(!file.thumbnailPath){
+      current.push(createThumbnail(file));
+      newImages.push(file);
+    }
   });
   
   Q.all(current)
@@ -31,7 +37,7 @@ function resize(imgs){
 }
 resize(imags);
 
-function nResize(image){
+function createThumbnail(image){
   
   var thumbnailPath = path.join(__dirname, '../thumbnails', path.basename(image.path));
   image.thumbnailPath = thumbnailPath;
@@ -56,18 +62,4 @@ function nResize(image){
     console.error(err);
   });
   
-}
-
-function savePics(pics) {
-  
-  var sorted = _.sortBy(pics, function (pic) {
-    return pic.DateTimeOriginal ? pic.DateTimeOriginal.valueOf() : 0;
-  });
-  
-  var stringed = JSON.stringify(sorted);
-  fs.writeFile("indexed-pics.json", stringed, 'utf8', function (err) {
-    if (err) {
-      console.error('Could not save indexed pics json', err);
-    }
-  });
 }

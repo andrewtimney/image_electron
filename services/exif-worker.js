@@ -7,6 +7,7 @@ var geolib = require('geolib');
 var fs = require('fs');
 var path = require('path');
 var easyimg = require('easyimage');
+var savePics = require('./file-saver');
 
 var pics = [];
 var fileArg;
@@ -61,21 +62,15 @@ function complete(event, files) {
 function createThumbnailsProcess(sorted, event){
   var pro = require('child_process');
   var crt = pro.spawn('node', ['services/create-thumbnails.js'], { stdio: ['pipe'] });
-  // crt.stdout.on('data', function(buffer){
-  //     console.log('update', buffer.toString());
-  // });
-  crt.stdout.on('end', function(){
-    console.log('END');
-    event.sender.send('exif-complete', sorted);
-  });
-}
-
-function savePics(pics) {
-  var stringed = JSON.stringify(pics);
-  fs.writeFile("indexed-pics.json", stringed, 'utf8', function (err) {
-    if (err) {
-      console.error('Could not save indexed pics json', err);
+  crt.stdout.on('data', function(buffer){
+    var newImage = buffer.toString();
+    if(!newImage.length){
+      event.sender.send('exif-complete', JSON.parse(newImage));
     }
+  });
+  crt.stdout.on('end', function(){
+    console.log('END', arguments);
+    //event.sender.send('exif-complete', sorted);
   });
 }
 
