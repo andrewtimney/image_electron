@@ -9,6 +9,8 @@ var path = require('path');
 var easyimg = require('easyimage');
 var savePics = require('./file-saver');
 
+var watcher = require('./folder-watch');
+
 var pics = [];
 var fileArg;
 
@@ -63,9 +65,14 @@ function createThumbnailsProcess(sorted, event){
   var pro = require('child_process');
   var crt = pro.spawn('node', ['services/create-thumbnails.js'], { stdio: ['pipe'] });
   crt.stdout.on('data', function(buffer){
-    var newImage = buffer.toString();
-    if(newImage.length){
-      event.sender.send('exif-complete', JSON.parse(newImage));
+    try{
+      var newImage = buffer.toString();
+      if(newImage.length){
+        event.sender.send('exif-complete', JSON.parse(newImage));
+      }
+    }
+    catch(err){
+      console.error(err);
     }
   });
   crt.stdout.on('end', function(){

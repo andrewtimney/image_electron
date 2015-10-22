@@ -53,8 +53,9 @@ function createThumbnail(image){
   
   return easyimg.thumbnail({
     src:image.path, dst:thumbnailPath,
-    width:250, height:250,
-    x:0, y:0
+    width:500, height:500,
+    x:0, y:0,
+    quality: 90
   })
   .then(function(result){
     // Success
