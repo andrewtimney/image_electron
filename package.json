@@ -7,6 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewtimney/image_electron.git"
+  },
   "author": "Andy Timney",
   "license": "ISC",
   "repository": {
