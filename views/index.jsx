@@ -3,6 +3,7 @@ var React = require('react');
 var _ = require('lodash');
 var moment = require("moment");
 var folderWatch = require('../services/folder-watch.js');
+var ReactWinJS = require('react-winjs');
 
 var Toolbar = React.createClass({
   getInitialState(){
@@ -15,20 +16,16 @@ var Toolbar = React.createClass({
     this.setState({ hasNewFiles: true });
   },
 	render(){
-		return <nav className="navbar navbar-default">
-				<div className="container-fluid">
-				 <div className="navbar-header">
-				 	<a href="#" className="navbar-brand">
-					 Woo
-					</a>
-				 </div>
-         <div className="collapse navbar-collapse pull-right">
-          <button type="button" className="btn btn-default navbar-btn">
-            <span>{ this.state.hasNewFiles ? 'New Files' : '' }</span>
-          </button>
-         </div>
-				</div>
-			</nav>;
+		return <div className="ui menu">
+            <div className="header item">
+              Images
+            </div>
+            <div className="right menu">
+              <a className="item">
+                { this.state.hasNewFiles ? 'New Files' : 'Watching for new files' }
+              </a>
+            </div>
+				  </div>;
 	}
 });
 
@@ -61,13 +58,30 @@ var Images = React.createClass({
     
     var newly = [];
     this.state.newly.forEach((file) => {
-      var divStyle = { backgroundImage: file.stylePath };
+      var divStyle = { backgroundImage: file.stylePath, width:'200', height:'200' };
       newly.push(<span 
         className="image flex-item square" 
         style={divStyle}
         key={file.path}></span>);
     });
     
+    var dateSource = new WinJS.Binding.List(this.state.files);
+    var listViewItemRenderer = ReactWinJS.reactRenderer(function (item) {
+            var divStyle = { backgroundImage: item.data.stylePath, height:'200px', width:'200px', display: '-ms-grid' };
+            console.log(item.data);
+            return <div 
+                    className="image square"
+                    style={divStyle}>
+                  </div>;
+          });
+    var listViewLayout = { type: WinJS.UI.GridLayout };
+    
+    return <ReactWinJS.ListView
+      itemDataSource={dateSource.dataSource}
+      itemTemplate={listViewItemRenderer}
+      style={{height:'100vh'}}
+      layout={listViewLayout} />;
+    /*
     return <div> 
             <Toolbar />
             <div className="">
@@ -79,7 +93,7 @@ var Images = React.createClass({
                 {files}
               </div>
             </div>
-           </div>;
+           </div>;*/
   }
 });
 

@@ -2,10 +2,10 @@ body, html{
 	margin:0;
 }
 
-.main{
+/*.main{
 	margin:0;
 	margin-top:10px;
-}
+}*/
 
 .image{
 	background-size: cover;
@@ -22,8 +22,8 @@ body, html{
 }
 
 .square{
-	width:200px;
-	height:200px;
+	width:200px !important;
+	height:200px !important;
 }
 
 .flex-container{
