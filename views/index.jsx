@@ -15,8 +15,10 @@ var Toolbar = React.createClass({
   folderWatchCallback(){
     this.setState({ hasNewFiles: true });
   },
+  handleUpdateResult(){
+  },
 	render(){
-		return <div className="ui menu">
+		/*return <div className="ui menu">
             <div className="header item">
               Images
             </div>
@@ -25,7 +27,14 @@ var Toolbar = React.createClass({
                 { this.state.hasNewFiles ? 'New Files' : 'Watching for new files' }
               </a>
             </div>
-				  </div>;
+				  </div>;*/
+      return <ReactWinJS.ToolBar ref="toolBar">
+        <ReactWinJS.ToolBar.Button
+                        key="chooseMe"
+                        icon="add"
+                        label="Choose Me"
+                        onClick={this.handleUpdateResult.bind(null, "Choose Me")} />
+      </ReactWinJS.ToolBar>
 	}
 });
 
@@ -76,24 +85,14 @@ var Images = React.createClass({
           });
     var listViewLayout = { type: WinJS.UI.GridLayout };
     
-    return <ReactWinJS.ListView
-      itemDataSource={dateSource.dataSource}
-      itemTemplate={listViewItemRenderer}
-      style={{height:'100vh'}}
-      layout={listViewLayout} />;
-    /*
     return <div> 
-            <Toolbar />
-            <div className="">
-              <div className="flex-container new">
-                {newly}
-              </div>
-              <div>{newly.length ? 'NEW':''}</div>
-              <div className="flex-container old">
-                {files}
-              </div>
-            </div>
-           </div>;*/
+      <Toolbar />
+      <ReactWinJS.ListView
+        itemDataSource={dateSource.dataSource}
+        itemTemplate={listViewItemRenderer}
+        style={{height:'100vh'}}
+        layout={listViewLayout} />
+      </div>;
   }
 });
 
