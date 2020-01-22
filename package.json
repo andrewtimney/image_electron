@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "better-console": "^0.2.4",
-    "chokidar": "^1.2.0",
+    "chokidar": "^2.0.0",
     "easyimage": "^2.1.0",
     "exif": "^0.4.0",
     "geolib": "^2.0.17",
